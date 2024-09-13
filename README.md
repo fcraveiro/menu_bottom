@@ -1,16 +1,7 @@
 # 🚀 **Interface de Arrastar e Soltar Ícones**
 
 Bem-vindo ao projeto **Interface de Arrastar e Soltar Ícones** – um aplicativo interativo em Flutter onde você pode arrastar e soltar ícones entre uma grade superior e slots inferiores. Uma forma divertida de gerenciar e visualizar ícones!
-
-## 📖 Readme e Agradecimentos pelo ChatGPT 😂
-
-## 🔥 Créditos
-
-Este projeto foi desenvolvido com a ajuda de várias ferramentas e recursos, incluindo:
-
-### **ChatGPT-4** 💡
-- **Consultoria Técnica e Soluções de Código**: ChatGPT-4 ajudou a fornecer soluções para a funcionalidade de arrastar e soltar, refinando o código Flutter e garantindo interações suaves.
-- **Documentação**: Este README foi estruturado e formatado com a ajuda do ChatGPT-4 para garantir clareza e precisão.
+A idéia é criar u BottomBar dinamico a escolha do usuário
 
 ### **Documentação do Flutter** 📚
 - **Referência**: A documentação do Flutter foi consultada para orientações sobre a implementação de recursos de arrastar e soltar e gerenciamento de estado.

@@ -74,7 +74,7 @@ Este projeto é licenciado sob a Licença MIT, permitindo o uso, cópia, modific
 
 <br>
 Vídeo exemplo
-<br>
+<br><br>
 
 https://github.com/user-attachments/assets/874bed20-1eed-4e45-8661-25ec7a5fbaff
 

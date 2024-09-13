@@ -1,6 +1,8 @@
 # 🚀 **Interface de Arrastar e Soltar Ícones**
 
-Bem-vindo ao projeto **Interface de Arrastar e Soltar Ícones** – um aplicativo interativo em Flutter onde você pode arrastar e soltar ícones entre uma grade superior e slots inferiores. Uma forma divertida de gerenciar e visualizar ícones!
+Bem-vindo ao projeto **Interface de Arrastar e Soltar Ícones** – um aplicativo interativo em Flutter onde você pode arrastar e soltar ícones entre uma grade superior e slots inferiores. 
+Uma forma divertida de gerenciar e visualizar ícones e navigators!
+
 A idéia é criar u BottomBar dinamico a escolha do usuário
 
 ### **Documentação do Flutter** 📚

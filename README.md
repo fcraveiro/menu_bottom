@@ -72,7 +72,9 @@ Adoramos contribuições! Se você tiver ideias, encontrar bugs ou quiser adicio
 
 Este projeto é licenciado sob a Licença MIT, permitindo o uso, cópia, modificação, fusão, publicação e distribuição do software.
 
+<br>
 Vídeo exemplo
+<br>
 
 https://github.com/user-attachments/assets/874bed20-1eed-4e45-8661-25ec7a5fbaff
 

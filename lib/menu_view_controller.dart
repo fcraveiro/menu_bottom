@@ -50,6 +50,14 @@ class MenuViewControllerController extends Controller {
     }
   }
 
+  // Função atualizada para modificar o estado das baias
+  void updateSelectedIcon(int index, IconData? icon) {
+    List<IconData?> newSelectedIcons = List.from(selectedIcons.value);
+    newSelectedIcons[index] = icon;
+    selectedIcons.value = newSelectedIcons;
+    _logSelectedIcons();
+  }
+
   @override
   onClose() {}
 }
@@ -70,11 +78,11 @@ class MenuViewControllerView extends ViewOf<MenuViewControllerController> {
         body: Container(
           width: size.width(100),
           height: size.height(100),
-          color: Colors.red,
+          color: Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: size.width(10)),
+              SizedBox(height: size.width(50)),
               // Quadro principal com todos os ícones
               Align(
                 alignment: Alignment.topCenter,
@@ -87,7 +95,7 @@ class MenuViewControllerView extends ViewOf<MenuViewControllerController> {
                       left: size.width(1),
                       right: size.width(1)),
                   decoration: BoxDecoration(
-                    color: Colors.blue[200],
+                    color: Colors.green[200],
                     borderRadius: BorderRadius.circular(size.width(4)),
                   ),
                   child: controller.icons.show(
@@ -99,9 +107,7 @@ class MenuViewControllerView extends ViewOf<MenuViewControllerController> {
                         }
                       },
                       builder: (context, candidateData, rejectedData) {
-                        return
-                            // estou na duvida aqui
-                            controller.draggingIcon.show(
+                        return controller.draggingIcon.show(
                           (value) => GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
@@ -110,16 +116,16 @@ class MenuViewControllerView extends ViewOf<MenuViewControllerController> {
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  // log(controller.icons.value[index].toString());
                                   final iconName = controller.iconNameMap[
                                       controller.icons.value[index]];
                                   log("Nome do ícone: $iconName");
                                 },
+                                onLongPress: () {
+                                  log('Long press no ícone');
+                                },
                                 child: Draggable<IconData>(
                                   data: controller.icons.value[index],
-                                  feedback:
-                                      // Icone que está sendo arrastado
-                                      Container(
+                                  feedback: Container(
                                     width: size.width(15),
                                     height: size.width(15),
                                     alignment: Alignment.center,
@@ -133,7 +139,6 @@ class MenuViewControllerView extends ViewOf<MenuViewControllerController> {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  // Icone que fica no lugar do que está sendo arrastado
                                   childWhenDragging: Center(
                                     child: Container(
                                       width: size.width(13),
@@ -155,23 +160,18 @@ class MenuViewControllerView extends ViewOf<MenuViewControllerController> {
                                   onDragStarted: () {
                                     controller.draggingIcon.value =
                                         controller.icons.value[index];
-                                    controller.icons.value.removeAt(
-                                        index); // Remove o ícone da grid enquanto arrasta
+                                    controller.icons.value.removeAt(index);
                                   },
                                   onDragCompleted: () {
-                                    controller.draggingIcon.value =
-                                        null; // Limpa o ícone que está sendo arrastado
+                                    controller.draggingIcon.value = null;
                                   },
                                   onDraggableCanceled: (_, __) {
                                     if (controller.draggingIcon.value != null) {
-                                      controller.icons.value.add(controller
-                                          .draggingIcon
-                                          .value!); // Adiciona de volta ao grid se não foi aceito
+                                      controller.icons.value
+                                          .add(controller.draggingIcon.value!);
                                     }
-                                    controller.draggingIcon.value =
-                                        null; // Limpa o ícone que está sendo arrastado
+                                    controller.draggingIcon.value = null;
                                   },
-                                  // Ícone que fica no grid
                                   child: Align(
                                     alignment: Alignment.topCenter,
                                     child: Container(
@@ -197,112 +197,114 @@ class MenuViewControllerView extends ViewOf<MenuViewControllerController> {
                   ),
                 ),
               ),
+              SizedBox(height: size.width(16)),
               // Row com as baias (DragTargets)
-              Expanded(
-                flex: 1,
-                child: Center(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * .9,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.grey[200],
-                    ),
-                    child:
-
-                        // outra duvida aqui
-                        Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: List.generate(4, (index) {
-                        return controller.selectedIcons.show(
-                          (value) => DragTarget<IconData>(
-                            onAcceptWithDetails: (details) {
-                              if (controller.selectedIcons.value[index] !=
-                                  null) {
-                                // Adiciona o ícone atual da baia de volta ao grid
-                                if (!controller.icons.value.contains(
-                                    controller.selectedIcons.value[index]!)) {
-                                  controller.icons.add(
-                                      controller.selectedIcons.value[index]!);
-                                }
+              Center(
+                child: Container(
+                  width: size.width(92),
+                  height: size.width(22),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: const Color(0xFF09423A),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: List.generate(4, (index) {
+                      return controller.selectedIcons.show(
+                        (value) => DragTarget<IconData>(
+                          onAcceptWithDetails: (details) {
+                            if (controller.selectedIcons.value[index] != null) {
+                              if (!controller.icons.value.contains(
+                                  controller.selectedIcons.value[index]!)) {
+                                controller.icons.add(
+                                    controller.selectedIcons.value[index]!);
                               }
-                              controller.selectedIcons.value[index] =
-                                  details.data;
-                              controller
-                                  ._logSelectedIcons(); // Chama a função para logar os ícones
-                            },
-                            builder: (context, candidateData, rejectedData) {
-                              return controller.selectedIcons.value[index] !=
+                            }
+                            controller.updateSelectedIcon(index, details.data);
+                          },
+                          builder: (context, candidateData, rejectedData) {
+                            return GestureDetector(
+                              onTap: () {
+                                if (controller.selectedIcons.value[index] !=
+                                    null) {
+                                  if (!controller.icons.value.contains(
+                                      controller.selectedIcons.value[index]!)) {
+                                    controller.icons.add(
+                                        controller.selectedIcons.value[index]!);
+                                  }
+                                  controller.updateSelectedIcon(index, null);
+                                }
+                              },
+                              child: controller.selectedIcons.value[index] !=
                                       null
                                   ? Draggable<IconData>(
                                       data:
                                           controller.selectedIcons.value[index],
                                       feedback: Container(
-                                        width: 50,
-                                        height: 50,
+                                        width: size.width(13),
+                                        height: size.width(13),
                                         alignment: Alignment.center,
-                                        color: Colors.grey[400],
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(
+                                              size.width(3)),
+                                        ),
                                         child: Icon(
                                           controller.selectedIcons.value[index],
                                           color: Colors.white,
                                         ),
                                       ),
                                       childWhenDragging: Container(
-                                        width: 70,
-                                        height: 70,
+                                        width: size.width(13),
+                                        height: size.width(13),
                                         alignment: Alignment.center,
-                                        color: Colors.grey[200],
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(
+                                              size.width(3)),
+                                        ),
                                         child: const Text("Baia",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(fontSize: 15)),
                                       ),
                                       onDragCompleted: () {
-                                        if (!controller.icons.value.contains(
-                                            controller
-                                                .selectedIcons.value[index]!)) {
-                                          controller.icons.value.add(controller
-                                                  .selectedIcons.value[
-                                              index]!); // Adiciona de volta ao quadro
-                                        }
-                                        controller.selectedIcons.value[index] =
-                                            null; // Limpa a baia
+                                        controller.updateSelectedIcon(
+                                            index, null);
                                       },
                                       onDraggableCanceled: (_, __) {
-                                        if (controller
-                                                .selectedIcons.value[index] !=
-                                            null) {
-                                          // Adiciona o ícone de volta ao grid superior
-                                          if (!controller.icons.value.contains(
-                                              controller.selectedIcons
-                                                  .value[index]!)) {
-                                            controller.icons.add(controller
-                                                .selectedIcons.value[index]!);
-                                          }
-                                        }
+                                        // O ícone permanece na baia se o arrasto for cancelado
                                       },
                                       child: Container(
-                                        width: 70,
-                                        height: 70,
+                                        width: size.width(13),
+                                        height: size.width(13),
                                         alignment: Alignment.center,
-                                        color: Colors.grey[300],
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(
+                                              size.width(3)),
+                                        ),
                                         child: Icon(controller
                                             .selectedIcons.value[index]),
                                       ),
                                     )
                                   : Container(
-                                      width: 70,
-                                      height: 70,
+                                      width: size.width(16),
+                                      height: size.width(16),
                                       alignment: Alignment.center,
-                                      color: Colors.grey[300],
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(
+                                            size.width(2)),
+                                      ),
                                       child: const Text("Baia",
                                           textAlign: TextAlign.center,
                                           style: TextStyle(fontSize: 15)),
-                                    );
-                            },
-                          ),
-                        );
-                      }),
-                    ),
+                                    ),
+                            );
+                          },
+                        ),
+                      );
+                    }),
                   ),
                 ),
               ),

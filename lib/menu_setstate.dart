@@ -1,14 +1,14 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 
-class Menu extends StatefulWidget {
-  const Menu({super.key});
+class MenuSetState extends StatefulWidget {
+  const MenuSetState({super.key});
 
   @override
-  State<Menu> createState() => _MenuState();
+  State<MenuSetState> createState() => _MenuSetStateState();
 }
 
-class _MenuState extends State<Menu> {
+class _MenuSetStateState extends State<MenuSetState> {
   // Mapeia ícones para nomes
   final Map<IconData, String> iconNameMap = {
     Icons.star: 'Star',

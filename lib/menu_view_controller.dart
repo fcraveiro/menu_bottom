@@ -24,7 +24,7 @@ class MenuViewControllerController extends Controller {
     Icons.favorite: 'Favorite',
     Icons.home: 'Home',
     Icons.settings: 'Settings',
-    Icons.access_alarm: 'Alarm',
+    Icons.dark_mode_outlined: 'Dark Mode',
     Icons.account_circle: 'Account',
     Icons.ac_unit: 'AC Unit',
     Icons.airplanemode_active: 'Airplane',
@@ -42,10 +42,10 @@ class MenuViewControllerController extends Controller {
     for (int i = 0; i < selectedIcons.length; i++) {
       final icon = selectedIcons.value[i];
       if (icon != null) {
-        final name = iconNameMap[icon]; // Obtém o nome associado ao ícone
-        log('Baia ${i + 1}: ${name ?? 'Desconhecido'}');
+        // final name = iconNameMap[icon]; // Obtém o nome associado ao ícone
+        // log('Baia ${i + 1}: ${name ?? 'Desconhecido'}');
       } else {
-        log('Baia ${i + 1}: Vazia');
+        // log('Baia ${i + 1}: Vazia');
       }
     }
   }
@@ -56,6 +56,17 @@ class MenuViewControllerController extends Controller {
     newSelectedIcons[index] = icon;
     selectedIcons.value = newSelectedIcons;
     _logSelectedIcons();
+  }
+
+  // Função para gerar o mapa final com a configuração das baias
+  Map<String, String?> generateBaiaConfig() {
+    Map<String, String?> baiaConfig = {};
+    for (int i = 0; i < selectedIcons.length; i++) {
+      final icon = selectedIcons.value[i];
+      baiaConfig['Baia ${i + 1}'] = icon != null ? iconNameMap[icon] : null;
+      log('Position ${i + 1}: ${icon != null ? iconNameMap[icon] : 'Vazia'}');
+    }
+    return baiaConfig;
   }
 
   @override
@@ -82,7 +93,7 @@ class MenuViewControllerView extends ViewOf<MenuViewControllerController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: size.width(50)),
+              SizedBox(height: size.width(30)),
               // Quadro principal com todos os ícones
               Align(
                 alignment: Alignment.topCenter,
@@ -116,12 +127,9 @@ class MenuViewControllerView extends ViewOf<MenuViewControllerController> {
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  final iconName = controller.iconNameMap[
-                                      controller.icons.value[index]];
-                                  log("Nome do ícone: $iconName");
-                                },
-                                onLongPress: () {
-                                  log('Long press no ícone');
+                                  // final iconName = controller.iconNameMap[
+                                  // controller.icons.value[index]];
+                                  // log("Nome do ícone: $iconName");
                                 },
                                 child: Draggable<IconData>(
                                   data: controller.icons.value[index],
@@ -272,29 +280,31 @@ class MenuViewControllerView extends ViewOf<MenuViewControllerController> {
                                             index, null);
                                       },
                                       onDraggableCanceled: (_, __) {
-                                        // O ícone permanece na baia se o arrasto for cancelado
+                                        // O ícone volta ao lugar original
                                       },
                                       child: Container(
                                         width: size.width(13),
                                         height: size.width(13),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
-                                          color: Colors.white,
+                                          color: Colors.green[800],
                                           borderRadius: BorderRadius.circular(
                                               size.width(3)),
                                         ),
-                                        child: Icon(controller
-                                            .selectedIcons.value[index]),
+                                        child: Icon(
+                                          controller.selectedIcons.value[index],
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     )
                                   : Container(
-                                      width: size.width(16),
-                                      height: size.width(16),
+                                      width: size.width(13),
+                                      height: size.width(13),
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(
-                                            size.width(2)),
+                                            size.width(3)),
                                       ),
                                       child: const Text("Baia",
                                           textAlign: TextAlign.center,
@@ -307,6 +317,15 @@ class MenuViewControllerView extends ViewOf<MenuViewControllerController> {
                     }),
                   ),
                 ),
+              ),
+              SizedBox(height: size.width(14)),
+              ElevatedButton(
+                onPressed: () {
+                  controller.generateBaiaConfig();
+                  // final baiaConfig = controller.generateBaiaConfig();
+                  // log(baiaConfig.toString());
+                },
+                child: const Text("Feito", style: TextStyle(fontSize: 18)),
               ),
             ],
           ),

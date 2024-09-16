@@ -42,10 +42,10 @@ class MenuViewControllerController extends Controller {
     for (int i = 0; i < selectedIcons.length; i++) {
       final icon = selectedIcons.value[i];
       if (icon != null) {
-        // final name = iconNameMap[icon]; // Obtém o nome associado ao ícone
-        // log('Baia ${i + 1}: ${name ?? 'Desconhecido'}');
+        final name = iconNameMap[icon]; // Obtém o nome associado ao ícone
+        log('Baia 1 ${i + 1}: ${name ?? 'Desconhecido'}');
       } else {
-        // log('Baia ${i + 1}: Vazia');
+        log('Baia 2 ${i + 1}: Vazia');
       }
     }
   }
@@ -93,7 +93,7 @@ class MenuViewControllerView extends ViewOf<MenuViewControllerController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: size.width(30)),
+              SizedBox(height: size.width(40)),
               // Quadro principal com todos os ícones
               Align(
                 alignment: Alignment.topCenter,
@@ -205,7 +205,7 @@ class MenuViewControllerView extends ViewOf<MenuViewControllerController> {
                   ),
                 ),
               ),
-              SizedBox(height: size.width(16)),
+              SizedBox(height: size.width(10)),
               // Row com as baias (DragTargets)
               Center(
                 child: Container(
@@ -319,14 +319,98 @@ class MenuViewControllerView extends ViewOf<MenuViewControllerController> {
                 ),
               ),
               SizedBox(height: size.width(14)),
-              ElevatedButton(
-                onPressed: () {
-                  controller.generateBaiaConfig();
-                  // final baiaConfig = controller.generateBaiaConfig();
-                  // log(baiaConfig.toString());
-                },
-                child: const Text("Feito", style: TextStyle(fontSize: 18)),
-              ),
+              // ElevatedButton(
+              //   onPressed: () {},
+              //   //   controller.generateBaiaConfig();
+              //   //   // final baiaConfig = controller.generateBaiaConfig();
+              //   //   // log(baiaConfig.toString());
+              //   // },
+              //   // child: const Text("Feito", style: TextStyle(fontSize: 18)),
+              //   child: const Text("", style: TextStyle(fontSize: 18)),
+              // ),
+              const Spacer(),
+              // Apenas Teste Visual
+
+              controller.selectedIcons.show((value) => Container(
+                    width: size.width(100),
+                    height: size.width(17),
+                    color: const Color(0xFF09423A),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          width: size.width(13),
+                          height: size.width(13),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(size.width(3)),
+                          ),
+                          child: Icon(
+                            controller.selectedIcons.value[0],
+                            color: Colors.black,
+                          ),
+                        ),
+                        Container(
+                          width: size.width(13),
+                          height: size.width(13),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(size.width(3)),
+                          ),
+                          child: Icon(
+                            controller.selectedIcons.value[1],
+                            color: Colors.black,
+                          ),
+                        ),
+                        //
+
+                        Container(
+                          width: size.width(15),
+                          height: size.width(15),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(size.width(3)),
+                          ),
+                          child: Icon(
+                            Icons.home,
+                            color: const Color(0xFF09423A),
+                            size: size.width(14),
+                          ),
+                        ),
+
+                        //
+                        Container(
+                          width: size.width(13),
+                          height: size.width(13),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(size.width(3)),
+                          ),
+                          child: Icon(
+                            controller.selectedIcons.value[2],
+                            color: Colors.black,
+                          ),
+                        ),
+                        Container(
+                          width: size.width(13),
+                          height: size.width(13),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(size.width(3)),
+                          ),
+                          child: Icon(
+                            controller.selectedIcons.value[3],
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
             ],
           ),
         ),
